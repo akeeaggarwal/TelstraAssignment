@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Assignment</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loading_data">loading data…</string>
+    <string name="network_err">Internet connection is not available.</string>
+    <string name="image_content">About Country</string>
+</resources>
