@@ -7,4 +7,5 @@
     <string name="loading_data">loading data…</string>
     <string name="network_err">Internet connection is not available.</string>
     <string name="image_content">About Country</string>
+    <string name="no_data_found_err">Data not found.</string>
 </resources>

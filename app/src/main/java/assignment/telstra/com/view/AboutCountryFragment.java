@@ -74,43 +74,49 @@ public class AboutCountryFragment extends Fragment {
 
     }
 
-    private void loadCountryInfo() {
+    public void loadCountryInfo() {
 
-        if (AppUtil.isNetworkAvailable(getActivity())) {
-            swipeRefreshLayout.setRefreshing(true);
-            CountryViewModel model = ViewModelProviders.of(this).get(CountryViewModel.class);
-            model.getLiveInfoObj().observe(this, new Observer<AboutCountryModel>() {
-                @Override
-                public void onChanged(@Nullable AboutCountryModel aboutCountryModel) {
+        if (getActivity()!=null) {
+            if (AppUtil.isNetworkAvailable(getActivity())) {
+                swipeRefreshLayout.setRefreshing(true);
+                CountryViewModel model = ViewModelProviders.of(this).get(CountryViewModel.class);
+                model.getLiveInfoObj().observe(this, new Observer<AboutCountryModel>() {
+                    @Override
+                    public void onChanged(@Nullable AboutCountryModel aboutCountryModel) {
 
+                        if (aboutCountryModel!=null && aboutCountryModel.getRows()!=null && aboutCountryModel.getRows().size()>0) {
+                            if (countryInfoAdapter==null){
+                                countryInfoAdapter = new CountryInfoAdapter(getActivity(), aboutCountryModel.getRows());
+                            }else {
+                                countryInfoAdapter.updateList(aboutCountryModel.getRows());
+                            }
+
+                            rvCountryInfoList.setAdapter(countryInfoAdapter);
+                            getActivity().setTitle(aboutCountryModel.getTitle());
+                            swipeRefreshLayout.setRefreshing(false);
+
+                            String jsonAboutCountry=new Gson().toJson(aboutCountryModel);
+                            AppUtil.saveDataInPref(getActivity(), AppConstant.PREF_KEY_ABOUT_COUNTRY,jsonAboutCountry);
+                        } else {
+                            Toast.makeText(getActivity(), R.string.no_data_found_err, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            } else {
+                swipeRefreshLayout.setRefreshing(false);
+                String json=AppUtil.getDataFromPref(getActivity(),AppConstant.PREF_KEY_ABOUT_COUNTRY);
+                if (!TextUtils.isEmpty(json)){
+                    AboutCountryModel aboutCountryModel=new Gson().fromJson(json,AboutCountryModel.class);
                     if (countryInfoAdapter==null){
                         countryInfoAdapter = new CountryInfoAdapter(getActivity(), aboutCountryModel.getRows());
                     }else {
                         countryInfoAdapter.updateList(aboutCountryModel.getRows());
                     }
-
                     rvCountryInfoList.setAdapter(countryInfoAdapter);
                     getActivity().setTitle(aboutCountryModel.getTitle());
-                    swipeRefreshLayout.setRefreshing(false);
-
-                    String jsonAboutCountry=new Gson().toJson(aboutCountryModel);
-                    AppUtil.saveDataInPref(getActivity(), AppConstant.PREF_KEY_ABOUT_COUNTRY,jsonAboutCountry);
-                }
-            });
-        } else {
-            swipeRefreshLayout.setRefreshing(false);
-            String json=AppUtil.getDataFromPref(getActivity(),AppConstant.PREF_KEY_ABOUT_COUNTRY);
-            if (!TextUtils.isEmpty(json)){
-                AboutCountryModel aboutCountryModel=new Gson().fromJson(json,AboutCountryModel.class);
-                if (countryInfoAdapter==null){
-                    countryInfoAdapter = new CountryInfoAdapter(getActivity(), aboutCountryModel.getRows());
                 }else {
-                    countryInfoAdapter.updateList(aboutCountryModel.getRows());
+                    Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_SHORT).show();
                 }
-                rvCountryInfoList.setAdapter(countryInfoAdapter);
-                getActivity().setTitle(aboutCountryModel.getTitle());
-            }else {
-                Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_SHORT).show();
             }
         }
     }
