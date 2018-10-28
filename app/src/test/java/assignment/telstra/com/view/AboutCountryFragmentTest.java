@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import assignment.telstra.com.R;
 import assignment.telstra.com.Utility.AppUtil;
 
 import static org.junit.Assert.*;
@@ -24,6 +25,8 @@ public class AboutCountryFragmentTest {
     public void networkTest() {
         assertTrue(AppUtil.isNetworkAvailable(aboutCountryFragment.getActivity()));
     }
+
+
 
     @Test
     public void methodCallingTest(){
