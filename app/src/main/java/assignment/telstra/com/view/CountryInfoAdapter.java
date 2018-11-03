@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class CountryInfoAdapter extends RecyclerView.Adapter<CountryInfoAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
 
         RowItem item=rowItems.get(position);
 
@@ -49,7 +51,19 @@ public class CountryInfoAdapter extends RecyclerView.Adapter<CountryInfoAdapter.
 
         if (!TextUtils.isEmpty(rowItems.get(position).getImageHref())){
             holder.imgIcon.setVisibility(View.VISIBLE);
-            Picasso.get().load(item.getImageHref()).into(holder.imgIcon);
+            holder.progressBar.setVisibility(View.VISIBLE);
+            Picasso.get().load(item.getImageHref()).into(holder.imgIcon, new Callback() {
+                @Override
+                public void onSuccess() {
+                    holder.progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    holder.imgIcon.setVisibility(View.GONE);
+                    holder.progressBar.setVisibility(View.GONE);
+                }
+            });
         }else {
             holder.imgIcon.setVisibility(View.GONE);
         }
@@ -77,12 +91,14 @@ public class CountryInfoAdapter extends RecyclerView.Adapter<CountryInfoAdapter.
         private final TextView title;
         private final TextView tvDesc;
         private final ImageView imgIcon;
+        private final ProgressBar progressBar;
 
         MyViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.text_title);
             tvDesc = itemView.findViewById(R.id.text_desc);
             imgIcon = itemView.findViewById(R.id.img_icon);
+            progressBar=itemView.findViewById(R.id.progressBar);
         }
     }
 }
