@@ -7,8 +7,6 @@ import android.net.NetworkInfo;
 
 public class AppUtil {
 
-
-
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(
                 Context.CONNECTIVITY_SERVICE);

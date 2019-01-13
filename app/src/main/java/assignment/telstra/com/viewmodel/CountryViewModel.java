@@ -51,7 +51,7 @@ public class CountryViewModel extends ViewModel {
 
             @Override
             public void onFailure(@NonNull Call<AboutCountryModel> call, @NonNull Throwable t) {
-                //countryInfo.setValue(t.getMessage());
+
             }
         });
     }

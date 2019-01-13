@@ -35,7 +35,7 @@ public class AboutCountryFragment extends Fragment {
     private CountryInfoAdapter countryInfoAdapter;
 
     public AboutCountryFragment() {
-        // Required empty public constructor
+
     }
 
     private void initView(View view){
