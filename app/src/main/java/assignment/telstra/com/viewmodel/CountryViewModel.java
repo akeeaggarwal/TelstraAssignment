@@ -23,14 +23,10 @@ public class CountryViewModel extends ViewModel {
         //if the list is null
         if (countryInfo == null)
             countryInfo = new MutableLiveData<>();
-            //we will load it asynchronously from server in this method
-            loadCountryInfo();
-
-
-        //finally we will return the info object
+        //we will load it asynchronously from server in this method
+        loadCountryInfo();
         return countryInfo;
     }
-
 
     //This method is using Retrofit to get the JSON data from URL
     private void loadCountryInfo() {
@@ -38,11 +34,8 @@ public class CountryViewModel extends ViewModel {
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         Api api = retrofit.create(Api.class);
         Call<AboutCountryModel> call = api.getCountryInfo();
-
-
         call.enqueue(new Callback<AboutCountryModel>() {
             @Override
             public void onResponse(@NonNull Call<AboutCountryModel> call, @NonNull Response<AboutCountryModel> response) {
@@ -51,7 +44,6 @@ public class CountryViewModel extends ViewModel {
 
             @Override
             public void onFailure(@NonNull Call<AboutCountryModel> call, @NonNull Throwable t) {
-
             }
         });
     }

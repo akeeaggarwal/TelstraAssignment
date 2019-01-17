@@ -10,17 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
-
-
 import assignment.telstra.com.R;
 import assignment.telstra.com.model.RowItem;
 
-public class CountryInfoAdapter extends RecyclerView.Adapter<CountryInfoAdapter.MyViewHolder>  {
+public class CountryInfoAdapter extends RecyclerView.Adapter<CountryInfoAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<RowItem> rowItems;
@@ -33,23 +29,22 @@ public class CountryInfoAdapter extends RecyclerView.Adapter<CountryInfoAdapter.
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view=LayoutInflater.from(mContext).inflate(R.layout.list_row_item,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.list_row_item, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
 
-        RowItem item=rowItems.get(position);
-
-        if (!TextUtils.isEmpty(rowItems.get(position).getTitle())){
+        RowItem item = rowItems.get(position);
+        if (!TextUtils.isEmpty(rowItems.get(position).getTitle())) {
             holder.title.setVisibility(View.VISIBLE);
             holder.title.setText(item.getTitle());
-        }else {
+        } else {
             holder.title.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(rowItems.get(position).getImageHref())){
+        if (!TextUtils.isEmpty(rowItems.get(position).getImageHref())) {
             holder.imgIcon.setVisibility(View.VISIBLE);
             holder.progressBar.setVisibility(View.VISIBLE);
             Picasso.get().load(item.getImageHref()).into(holder.imgIcon, new Callback() {
@@ -64,14 +59,14 @@ public class CountryInfoAdapter extends RecyclerView.Adapter<CountryInfoAdapter.
                     holder.progressBar.setVisibility(View.GONE);
                 }
             });
-        }else {
+        } else {
             holder.imgIcon.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(rowItems.get(position).getDescription())){
+        if (!TextUtils.isEmpty(rowItems.get(position).getDescription())) {
             holder.tvDesc.setVisibility(View.VISIBLE);
             holder.tvDesc.setText(item.getDescription());
-        }else {
+        } else {
             holder.tvDesc.setVisibility(View.GONE);
         }
     }
@@ -82,11 +77,11 @@ public class CountryInfoAdapter extends RecyclerView.Adapter<CountryInfoAdapter.
     }
 
     public void updateList(List<RowItem> rows) {
-        this.rowItems=rows;
+        this.rowItems = rows;
         notifyDataSetChanged();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView title;
         private final TextView tvDesc;
@@ -98,7 +93,7 @@ public class CountryInfoAdapter extends RecyclerView.Adapter<CountryInfoAdapter.
             title = itemView.findViewById(R.id.text_title);
             tvDesc = itemView.findViewById(R.id.text_desc);
             imgIcon = itemView.findViewById(R.id.img_icon);
-            progressBar=itemView.findViewById(R.id.progressBar);
+            progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
 }
